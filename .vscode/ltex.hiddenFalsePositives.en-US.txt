@@ -1,0 +1,18 @@
+{"rule":"ENGLISH_WORD_REPEAT_BEGINNING_RULE","sentence":"^\\QImplementation Cata Merkle.\\E$"}
+{"rule":"ENGLISH_WORD_REPEAT_BEGINNING_RULE","sentence":"^\\QImplementation Zipper Merkle.\\E$"}
+{"rule":"PASSIVE_VOICE","sentence":"^\\QThe fix point is then used to describe the recursion of the datatype on a type-level basis.\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\Qmonthyeardate [],\\E$"}
+{"rule":"PASSIVE_VOICE","sentence":"^\\QFirst, we present an implementation of incrementally computing a value over a data structure, then in Chapter \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q a generic version of the implementation is presented.\\E$"}
+{"rule":"SUBJECT_VERB_AGREEMENT_PLURAL","sentence":"^\\QWhen modifying the value in the TreeH, the parents nodes hashes also needs to be updated.\\E$"}
+{"rule":"COMMA_PARENTHESIS_WHITESPACE","sentence":"^\\Q[display] .\\E$"}
+{"rule":"THREE_NN","sentence":"^\\QThe pattern functor representation can then be used to write\\E$"}
+{"rule":"PUNCTUATION_PARAGRAPH_END","sentence":"^\\QThe criteria for a generic programming library for this paper are The generic representation Support of mutually recursive datatypes Extensibility\\E$"}
+{"rule":"TOO_LONG_SENTENCE","sentence":"^\\QFor the implementation of a generic zipper, we need to define a datatype which keeps track of the location inside the data structure, a context which keeps track of the locations which have been traversed through and functions which facilitate traversing through the data structure.\\E$"}
+{"rule":"THREE_NN","sentence":"^\\QThe developer experience using \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q is difficult, because the developer needs to know the pattern functor representation of its datatype to\\E$"}
+{"rule":"AGREEMENT_SENT_START_2","sentence":"^\\QPattern synonyms adds an abstraction over patterns,\\E$"}
+{"rule":"THREE_NN","sentence":"^\\QThen to compute the max path sum over the Changed Tree, the previously computed \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q can be used to reduce the amount of recomputation.\\E$"}
+{"rule":"THREE_NN","sentence":"^\\QA cache replacement policy can be chosen to be used.\\E$"}
+{"rule":"THREE_NN","sentence":"^\\QAn example of a cache addition policy would be\\E$"}
+{"rule":"THREE_NN","sentence":"^\\QCurrently, the user has to define their own pattern synonym definition which can become\\E$"}
+{"rule":"THREE_NN","sentence":"^\\QThen, we show the results of adding a cache addition policy.\\E$"}
+{"rule":"THE_SUPERLATIVE","sentence":"^\\QThe Incremental Cata Sum is constant/logarithmic, because it only updates the digests of the changed nodes and its parent nodes and recomputes the nodes with changed digests, which is worst case \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q where \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q is the amount of changes and \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q is the size of the tree.\\E$"}

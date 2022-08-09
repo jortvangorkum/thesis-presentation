@@ -1,0 +1,79 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage{graphbox}
+
+\usetheme{Boadilla}
+\setbeamersize{text margin left=2.3em,text margin right=2.3em}
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{}
+\addtobeamertemplate{navigation symbols}{}{%
+  \usebeamerfont{footline}%
+  \usebeamercolor[fg]{footline}%
+  \includegraphics[align=c, height=0.5cm]{images/UU_logo_2021_EN_RGB.pdf}%
+  % \hspace*{\fill}%
+  \hspace{1em}%
+  \insertframenumber/\inserttotalframenumber
+}
+
+\definecolor{red}{HTML}{C73E1D}
+\definecolor{yelloworange}{RGB}{255, 205, 0}
+\definecolor{gray}{RGB}{40, 40, 40}
+\definecolor{darkgray}{RGB}{30, 30, 30}
+\setbeamercolor{frametitle}{bg=yelloworange, fg=black}
+\setbeamercolor{normal text}{fg=gray, bg=white}
+\setbeamercolor{alerted text}{fg=red}
+\setbeamercolor{example text}{fg=green!50!black}
+\setbeamercolor{structure}{fg=darkgray}
+
+\usepackage{minted}
+\RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}
+\newenvironment{code}
+    {\VerbatimEnvironment\begin{center}\begin{minted}[escapeinside=!!]{haskell}}
+    {\end{minted}\end{center}}
+\newenvironment{slide}[1]
+  {\begin{frame}[fragile,environment=slide]{\secname\ – #1}}
+  {\end{frame}}
+\long\def\ignore#1{}
+
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{biblatex}
+\addbibresource{references.bib}
+
+
+\title{\textbf{Generic Incremental Computation for Regular Datatypes}}
+% \subtitle{Victor Cacciari Miraldo \\ Wouter Swierstra}
+\author{Jort van Gorkum}
+\institute{Utrecht University}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+% \input{slides/introduction}
+
+% \input{slides/definition_algorithm}
+
+% \input{slides/concrete_example}
+
+% \input{slides/minimizing_changes}
+
+% \input{slides/defining_wcs}
+
+% \input{slides/merging}
+
+% \input{slides/generic_diffing}
+
+% \input{slides/experiments}
+
+% \input{slides/summary}
+
+\begin{frame}{References}
+\printbibliography
+\end{frame}
+
+\end{document}
