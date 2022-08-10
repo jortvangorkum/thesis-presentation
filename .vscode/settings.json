@@ -20,6 +20,7 @@
         "**/*.pyg": true,
         "**/*.nav": true,
         "**/*.snm": true,
+        "**/*.vrb": true,
         "**/*.run.xml": true,
         "**/_minted-*": true,
         // Build tool auxiliary files

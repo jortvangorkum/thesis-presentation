@@ -5,17 +5,14 @@
 \usetheme{Boadilla}
 \setbeamersize{text margin left=2.3em,text margin right=2.3em}
 \setbeamertemplate{bibliography item}{\insertbiblabel}
-\setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{footline}{}
-\addtobeamertemplate{navigation symbols}{}{%
+\setbeamertemplate{navigation symbols}{
   \usebeamerfont{footline}%
   \usebeamercolor[fg]{footline}%
-  \includegraphics[align=c, height=0.5cm]{images/UU_logo_2021_EN_RGB.pdf}%
-  % \hspace*{\fill}%
-  \hspace{1em}%
-  \insertframenumber/\inserttotalframenumber
+  \footnotesize \insertframenumber/\inserttotalframenumber
+  \hspace*{1.2em}
+  \vspace*{.7em}
 }
-
+\setbeamertemplate{footline}{}
 \definecolor{red}{HTML}{C73E1D}
 \definecolor{yelloworange}{RGB}{255, 205, 0}
 \definecolor{gray}{RGB}{40, 40, 40}
@@ -28,12 +25,7 @@
 
 \usepackage{minted}
 \RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}
-\newenvironment{code}
-    {\VerbatimEnvironment\begin{center}\begin{minted}[escapeinside=!!]{haskell}}
-    {\end{minted}\end{center}}
-\newenvironment{slide}[1]
-  {\begin{frame}[fragile,environment=slide]{\secname\ – #1}}
-  {\end{frame}}
+\input{custom_environment.tex}
 \long\def\ignore#1{}
 
 \usepackage{amsmath}
@@ -41,18 +33,16 @@
 \usepackage{biblatex}
 \addbibresource{references.bib}
 
-
-\title{\textbf{Generic Incremental Computation for Regular Datatypes}}
-% \subtitle{Victor Cacciari Miraldo \\ Wouter Swierstra}
+\title{Generic Incremental Computation for Regular Datatypes}
 \author{Jort van Gorkum}
 \institute{Utrecht University}
 \date{\today}
 
 \begin{document}
 
-\begin{frame}
-\titlepage
-\end{frame}
+\input{slides/1_title_page.tex}
+
+\input{slides/2_title_explaination.tex}
 
 % \input{slides/introduction}
 

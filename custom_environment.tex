@@ -1,0 +1,6 @@
+\newenvironment{code}
+    {\VerbatimEnvironment\begin{center}\begin{minted}[escapeinside=!!]{haskell}}
+    {\end{minted}\end{center}}
+\newenvironment{slide}[1]
+  {\begin{frame}[fragile,environment=slide]{\secname\ – #1}}
+  {\end{frame}}
