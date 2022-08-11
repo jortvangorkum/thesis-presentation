@@ -1,0 +1,66 @@
+\section{Solution}
+
+\begin{slide}{Using Hash function}
+A \textit{hash function} is a process of transforming input into an arbitrary fixed-size value (i.e., digest), where the same input always generates the same output
+
+\begin{center}
+\begin{minted}[escapeinside=!!]{text}
+     5 
+   /   \
+  3     3       ->    1da16c7c48e429b4ad6e6c88d941d2bd
+ / \   / \
+1  2   1  2
+\end{minted}
+\end{center}
+\end{slide}
+
+\begin{slide}{Implementation Hash function}
+\begin{haskell}
+class Hashable a where
+  hash :: a -> Digest
+
+instance Hashable a => Hashable (Tree a) where
+  hash (Leaf x)     = concatDigest [hash "Leaf", hash x]
+  hash (Node l x r) = concatDigest [hash "Node", hash l, hash x, hash r]
+\end{haskell}
+\end{slide}
+
+\begin{slide}{Storing the Digests}
+A \textit{Merkle Tree} is a data structure which integrates the \textit{digests} within the data structure
+
+\vspace*{0.4cm}
+\begin{haskell}
+data TreeH a = LeafH Digest a
+             | NodeH Digest (TreeH a) a (TreeH a)
+
+
+merkle :: Tree Int -> TreeH Int
+merkle l@(Leaf x)     = LeafH (hash l) x
+merkle b@(Node l x r) = NodeH  (hash b) l' x r'
+  where
+    l' = merkle l
+    r' = merkle r
+\end{haskell}
+\end{slide}
+
+\begin{slide}{Using Digests} 
+\begin{haskell}
+sumTreeInc m (LeafH d x) = case lookup d m of
+  Just z  -> (z, m)
+  Nothing -> (x, insert d x m)
+
+...
+\end{haskell}
+
+\begin{haskell}
+SumTreeInc 
+\end{haskell}
+\end{slide}
+
+\begin{slide}{Updating the Digests}
+The \textit{Zipper} is a technique for keeping track of how the data structure is being traversed through
+
+\begin{haskell}
+todo
+\end{haskell}
+\end{slide}

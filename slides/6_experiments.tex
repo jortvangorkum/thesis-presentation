@@ -1,0 +1,24 @@
+\section{Experiments}
+
+\begin{slide}{Method}
+\begin{haskell}
+cataSum (Leaf x)     = x
+cataSum (Node l x r) = x + cataSum l + cataSum r
+
+genericCataSum = cataMerkle
+  (\case
+    Leaf_ x     -> x
+    Node_ l x r -> l + x + r
+  )
+
+incCataSum = cataMerkleMap
+  (\case
+    Leaf_ x     -> x
+    Node_ l x r -> l + x + r
+  )
+\end{haskell}
+\end{slide}
+
+\begin{slide}{Results}
+I am fast as f*ck boy!
+\end{slide}

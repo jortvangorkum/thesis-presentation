@@ -45,7 +45,7 @@ fib n = fib (n - 1) + fib (n - 2)
 
 \vspace*{0.4cm}
 
-Memoization stores the result of a computation and returns the cached result when the same input occurs again.
+stores the result of a computation and returns the cached result when the same input occurs again.
 
 \end{slide}
 
@@ -113,11 +113,11 @@ length :: List a -> Int
 length Nil        = 0
 length (Cons _ t) = 1 + length t
 
-data Tree a = Leaf | Bin (Tree a) a (Tree a)
+data Tree a = Leaf | Node (Tree a) a (Tree a)
 
 length :: Tree a -> Int
-length Leaf        = 1
-length (Bin l _ r) = 1 + length l + length r
+length Leaf         = 1
+length (Node l _ r) = 1 + length l + length r
 \end{haskell}
 \end{slide}
 
@@ -134,7 +134,7 @@ A \textit{single} \texttt{length} function can be written, that can operate on l
 > gLength (Cons 1 (Cons 2 (Cons 3 Nil)))
     2
 
-> gLength (Bin Leaf 1 Leaf)
+> gLength (Node Leaf 1 Leaf)
     3
 \end{haskell}
 \end{slide}
@@ -149,7 +149,7 @@ A \textit{single} \texttt{length} function can be written, that can operate on l
 \textbf{=}
 \vspace*{.5cm}
 
-Regular datatypes are recursive datatypes, which can only recurse into themselves, such as lists, binary trees, etc. 
+Regular datatypes are recursive datatypes, which can only recurse into themselves, such as lists, Nodeary trees, etc. 
 
 \end{slide}
 
@@ -161,7 +161,7 @@ Regular datatypes are recursive datatypes, which can only recurse into themselve
 \begin{haskell}
 data List a = Nil | Cons a (List a)
 
-data Tree a = Leaf | Bin a (Tree a) (Tree a)
+data Tree a = Leaf | Node a (Tree a) (Tree a)
 \end{haskell}
 
 \vspace*{0.5cm}
