@@ -1,0 +1,83 @@
+\section{Problem statement}
+
+\begin{slide}{What is the problem?}
+
+
+\end{slide}
+
+\begin{slide}{Example}
+\begin{haskell}
+data Tree a = Leaf a | Bin (Tree a) a (Tree a)
+
+sumTree :: Tree Int -> Int
+sumTree (Leaf x)    = x
+sumTree (Bin l x r) = x + sumTree l + sumTree r
+
+exampleTree = Bin (Bin (Leaf 1) 3 (Leaf 2)) 5 (Bin (Leaf 1) 3 (Leaf 2))
+\end{haskell}
+
+\begin{center}
+\textbf{Visual representation}
+
+\begin{minted}{text}
+     5 
+   /   \
+  3     3
+ / \   / \
+1  2   1  2
+\end{minted}
+\end{center}
+\end{slide}
+
+\begin{slide}{Example}
+\begin{minipage}{.3\textwidth}
+\begin{center}
+\textbf{Example Tree}
+
+\vspace*{0.4cm}
+\begin{minted}[escapeinside=!!]{text}
+     5 
+   /   \
+  3     !\textcolor{red}{3}!
+ / \   !\textcolor{red}{/ \texttt{\symbol{92}}}!
+1  2   !\textcolor{red}{1  2}!
+\end{minted}
+\end{center}
+\end{minipage}
+\hfill
+\begin{minipage}{.6\textwidth}
+\begin{center}
+\begin{tabular}{ | p{0.3\textwidth} | c | }
+\hline
+\textbf{Tree} & \textbf{Result} \\ 
+\hline
+\vspace{0.1em}
+\begin{minipage}[t]{.2\textwidth}
+\begin{minted}{text}
+      5 
+    /   \
+   3     3
+  / \   / \
+ 1  2   1  2
+\end{minted}
+\end{minipage}
+\vspace{0.5em} & 17 \\
+\hline
+\vspace{0.1em}
+\begin{minipage}[t]{.2\textwidth}
+\begin{minted}{text}
+      3 
+     / \ 
+    1   2
+\end{minted}
+\end{minipage}
+\vspace{0.5em}  & 6 \\
+\hline
+\end{tabular}
+\vspace*{0.7cm}
+
+\textbf{Cached Results}
+\end{center}
+\end{minipage}
+
+\end{slide}

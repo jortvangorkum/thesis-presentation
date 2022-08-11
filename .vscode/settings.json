@@ -71,7 +71,8 @@
     ],
     "ltex.latex.environments": {
         "haskell": "ignore",
-        "minted": "ignore"
+        "minted": "ignore",
+        "chaskell": "ignore"
     },
     "ltex.latex.commands": {
         "\\texttt{}": "dummy",

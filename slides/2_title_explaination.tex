@@ -23,10 +23,10 @@ fib 0 = 0
 fib 1 = 1
 fib n = fib (n - 1) + fib (n - 2)
 \end{haskell}
-
-Call Hierarchy
-
 \begin{center}  
+\textbf{Call Hierarchy}
+
+\vspace*{.2cm}
 \begin{minted}{text}
                   fib(4)  
                /          \
@@ -40,14 +40,24 @@ Call Hierarchy
 \end{slide}
 
 \begin{slide}{Example Incremental Computation}
+\centering
+{\huge \textit{Memoization}}
+
+\vspace*{0.4cm}
+
+Memoization stores the result of a computation and returns the cached result when the same input occurs again.
+
+\end{slide}
+
+\begin{slide}{Example Incremental Computation}
 \begin{minipage}{.45\textwidth}
 \begin{center}
-New Call Hierarchy
+\textbf{New Call Hierarchy}
 
 \vspace*{.7cm}
 \begin{minted}[escapeinside=!!]{text}
                   fib(4)  
-               /         \
+               /          \
           fib(3)           !\textcolor{red}{fib(2)}!
           /   \      
       fib(2)   fib(1)
@@ -74,7 +84,7 @@ New Call Hierarchy
     \end{table}
     \vspace*{0.7cm}
 
-    Cached Results
+    \textbf{Cached Results}
   \end{center}
 \end{minipage}
 \end{slide}
@@ -103,11 +113,11 @@ length :: List a -> Int
 length Nil        = 0
 length (Cons _ t) = 1 + length t
 
-data Tree a = Leaf | Bin a (Tree a) (Tree a)
+data Tree a = Leaf | Bin (Tree a) a (Tree a)
 
 length :: Tree a -> Int
 length Leaf        = 1
-length (Bin _ l r) = 1 + length l + length r
+length (Bin l _ r) = 1 + length l + length r
 \end{haskell}
 \end{slide}
 
@@ -124,7 +134,7 @@ A \textit{single} \texttt{length} function can be written, that can operate on l
 > gLength (Cons 1 (Cons 2 (Cons 3 Nil)))
     2
 
-> gLength (Bin 1 Leaf Leaf)
+> gLength (Bin Leaf 1 Leaf)
     3
 \end{haskell}
 \end{slide}
