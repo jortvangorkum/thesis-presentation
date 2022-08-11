@@ -1,5 +1,7 @@
 \section{Title Explanation}
 
+% Incremental Computation
+
 \begin{slide}{Incremental Computation}
 \centering
 \large \textbf{Generic \textcolor{red}{Incremental Computation} for Regular Datatypes}
@@ -8,9 +10,76 @@
 \textbf{=}
 \vspace*{.5cm}
 
-Incremental computation is an approach to improve performance by reusing results of a previously computed result when both of the inputs are equal
+Incremental computation is an approach to improve performance by only recomputing result for changed input
 
 \end{slide}
+
+% Incremental Computation Example
+
+\begin{slide}{Example Incremental Computation}
+\begin{haskell}
+fib :: Int -> Int
+fib 0 = 0
+fib 1 = 1
+fib n = fib (n - 1) + fib (n - 2)
+\end{haskell}
+
+Call Hierarchy
+
+\begin{center}  
+\begin{minted}{text}
+                  fib(4)  
+               /          \
+          fib(3)           fib(2)
+          /   \            /   \
+     fib(2)   fib(1)  fib(1)   fib(0)
+     /   \
+ fib(1)  fib(0)
+\end{minted}
+\end{center}
+\end{slide}
+
+\begin{slide}{Example Incremental Computation}
+\begin{minipage}{.45\textwidth}
+\begin{center}
+New Call Hierarchy
+
+\vspace*{.7cm}
+\begin{minted}[escapeinside=!!]{text}
+                  fib(4)  
+               /         \
+          fib(3)           !\textcolor{red}{fib(2)}!
+          /   \      
+      fib(2)   fib(1)
+      /   \
+  fib(1)  fib(0)
+\end{minted}
+\end{center}
+\end{minipage}
+\hfill
+\begin{minipage}{.45\textwidth}
+  \begin{center}
+    \begin{table}[h]
+      \begin{tabular}{ | c | c | }
+        \hline
+        \textbf{Function Call} & \textbf{Result} \\ 
+        \hline
+        fib(2) & 1 \\
+        \hline
+        fib(3) & 2 \\
+        \hline
+        fib(4) & 3 \\
+        \hline
+      \end{tabular}
+    \end{table}
+    \vspace*{0.7cm}
+
+    Cached Results
+  \end{center}
+\end{minipage}
+\end{slide}
+
+% Generic Programming
 
 \begin{slide}{Generic}
 \centering
@@ -24,6 +93,35 @@ Generic refers to \textit{datatype-generic programming}, which is a form of abst
 
 \end{slide}
 
+% Generic Programming Example
+
+\begin{slide}{Generic Example}
+\begin{haskell}
+data List a = Nil | Cons a (List a) -- Haskell Notation [] | x : [] 
+
+length :: List a -> Int
+length Nil        = 0
+length (Cons _ t) = 1 + length t
+
+data Tree a = Leaf | Bin a (Tree a) (Tree a)
+
+length :: Tree a -> Int
+length Leaf        = 1
+length (Bin _ l r) = 1 + length l + length r
+\end{haskell}
+\end{slide}
+
+\begin{slide}{Generic Example}
+\begin{chaskell}
+gLength :: (Generic f) => f a -> Int
+gLength = ...
+\end{chaskell}
+
+A \textit{single} \texttt{length} function can be written, that can operate on lists, trees, and many other datatypes
+\end{slide}
+
+% Regular Datatypes
+
 \begin{slide}{Regular Datatypes}
 \centering
 \large \textbf{Generic Incremental Computation for \textcolor{red}{Regular Datatypes}}
@@ -34,4 +132,25 @@ Generic refers to \textit{datatype-generic programming}, which is a form of abst
 
 Regular datatypes are recursive datatypes, which can only recurse into themselves, such as lists, binary trees, etc. 
 
+\end{slide}
+
+% Regular Datatypes Example
+
+\begin{slide}{Regular Datatypes Example}
+\textbf{Regular Datatypes}
+
+\begin{haskell}
+data List a = Nil | Cons a (List a)
+
+data Tree a = Leaf | Bin a (Tree a) (Tree a)
+\end{haskell}
+
+\vspace*{0.5cm}
+\textbf{\textcolor{red}{Not} Regular Datatypes}
+
+\begin{haskell}
+data Tree a = Empty | Node a (Forest a)
+
+data Forest a = Nil | Cons (Tree a) (Forest a)
+\end{haskell}
 \end{slide}
