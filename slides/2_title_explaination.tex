@@ -118,6 +118,15 @@ gLength = ...
 \end{chaskell}
 
 A \textit{single} \texttt{length} function can be written, that can operate on lists, trees, and many other datatypes
+
+\vspace*{0.5cm}
+\begin{haskell}
+> gLength (Cons 1 (Cons 2 (Cons 3 Nil)))
+    2
+
+> gLength (Bin 1 Leaf Leaf)
+    3
+\end{haskell}
 \end{slide}
 
 % Regular Datatypes
