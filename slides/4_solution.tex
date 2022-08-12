@@ -36,7 +36,7 @@ data TreeH a = LeafH Digest a
 
 merkle :: Tree Int -> TreeH Int
 merkle l@(Leaf x)     = LeafH (hash l) x
-merkle b@(Node l x r) = NodeH  (hash b) l' x r'
+merkle b@(Node l x r) = NodeH (hash b) l' x r'
   where
     l' = merkle l
     r' = merkle r

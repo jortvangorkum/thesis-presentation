@@ -1,23 +1,57 @@
 \section{Generic Programming}
 
 \begin{slide}{Pattern Functors}
+
+\textbf{Primitive Type Constructors}
+
 \begin{haskell}
 data U r         = U                 -- Empty constructor
-data I r         = I r               -- Recursive call
+data I r         = I r               -- Recursive position
 data K a r       = K a               -- Constant
 data (f :+: g) r = L (f r) | R (g r) -- Sums (Choice)
 data (f :*: g) r = (f r) :*: (g r)   -- Products (Combine)
 \end{haskell}
 
+\textbf{Pattern functor for the} \texttt{Tree} \textbf{datatype}
+
 \begin{haskell}
+data Tree a = Leaf a | Node (Tree a) a (Tree a)
+
 type instance PF (Tree a) = K a                -- Leaf
                          :+: (I :*: K a :*: I) -- Node
 \end{haskell}
 \end{slide}
 
+\begin{slide}{Fixed-point}
+
+Pattern functors only represent a single layer of recursion
+  
+\begin{haskell}
+data Fix f = In (f (Fix f))
+
+type Tree a = Fix (PF (Tree a))
+\end{haskell}
+
+Isomorphic
+
+\begin{haskell}
+from :: Tree a -> Fix (PF (Tree a))
+from (Leaf x)     = In (K x)
+from (Node l x r) = In (I (from l) :*: K x :*: I (from r)) 
+
+to :: Fix (PF (Tree a)) -> Tree a
+to (In (K x))                 = Leaf x
+to (In (I l :*: K x :*: I r)) = Node (to l) x (to r)
+\end{haskell}
+\end{slide}
+
+\section{Generic Implementation}
+
 \begin{slide}{Merkle}
 \begin{haskell}
 type Merkle f = Fix (f :*: K Digest)
+
+type MerkleTree a = Merkle (PF (Tree a))
 
 class Hashable f where
   hash :: f (Merkle g) -> Digest

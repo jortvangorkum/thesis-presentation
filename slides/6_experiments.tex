@@ -1,22 +1,29 @@
 \section{Experiments}
 
 \begin{slide}{Method}
-\begin{haskell}
-cataSum (Leaf x)     = x
-cataSum (Node l x r) = x + cataSum l + cataSum r
+Three functions:
+\begin{itemize}
+  \item \texttt{Cata Sum} 
+  \begin{itemize}
+    \item Non-incremental algorithm
+  \end{itemize}
+  \item \texttt{Generic Cata Sum}
+  \begin{itemize}
+    \item Incremental algorithm with an empty cache
+  \end{itemize}
+  \item \texttt{Incremental Cata Sum}
+  \begin{itemize}
+    \item Incremental algorithm with a filled cache
+  \end{itemize}
+\end{itemize}
 
-genericCataSum = cataMerkle
-  (\case
-    Leaf_ x     -> x
-    Node_ l x r -> l + x + r
-  )
+Three scenarios:
+\begin{itemize}
+  \item Worst case: ...
+  \item Average case: ...
+  \item Best case: ...
+\end{itemize}
 
-incCataSum = cataMerkleMap
-  (\case
-    Leaf_ x     -> x
-    Node_ l x r -> l + x + r
-  )
-\end{haskell}
 \end{slide}
 
 \begin{slide}{Results}
