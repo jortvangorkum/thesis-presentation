@@ -8,25 +8,25 @@ A \textit{hash function} is a process of transforming input into an arbitrary fi
      5 
    /   \
   3     3       ->    1da16c7c48e429b4ad6e6c88d941d2bd
- / \   / \
-1  2   1  2
+ / \   / \    
+1  2   1  2                       !\textcolor{red}{Digest}!  
 \end{minted}
 \end{center}
 \end{slide}
 
-\begin{slide}{Implementation Hash function}
-\begin{haskell}
-class Hashable a where
-  hash :: a -> Digest
+% \begin{slide}{Implementation Hash function}
+% \begin{haskell}
+% class Hashable a where
+%   hash :: a -> Digest
 
-instance Hashable a => Hashable (Tree a) where
-  hash (Leaf x)     = concatDigest [hash "Leaf", hash x]
-  hash (Node l x r) = concatDigest [hash "Node", hash l, hash x, hash r]
-\end{haskell}
-\end{slide}
+% instance Hashable a => Hashable (Tree a) where
+%   hash (Leaf x)     = concatDigest [hash "Leaf", hash x]
+%   hash (Node l x r) = concatDigest [hash "Node", hash l, hash x, hash r]
+% \end{haskell}
+% \end{slide}
 
 \begin{slide}{Storing the Digests}
-A \textit{Merkle Tree} is a data structure which integrates the \textit{digests} within the data structure
+A \textit{Merkle Tree} is a data structure which integrates the \textit{digests}, which represents the internal structure, within the data structure
 
 \vspace*{0.4cm}
 \begin{haskell}
@@ -61,6 +61,51 @@ SumTreeInc
 The \textit{Zipper} is a technique for keeping track of how the data structure is being traversed through
 
 \begin{haskell}
-todo
+data Cxt a = L (Tree a) a | R (Tree a) a
+
+type Loc a = (Tree a, [Cxt a])
+
+enter :: Tree a -> Loc a
+enter t = (t, [])
 \end{haskell}
 \end{slide}
+
+\begin{slide}{Zipper - Left}
+\begin{center}
+\begin{minted}[escapeinside=!!]{text}
+     !\textcolor{red}{5}!                           5     
+   /   \                           \    
+  3     3      ->      !\textcolor{red}{3}!            3    
+ / \   / \            / \          / \  
+1  2   1  2          1   2        1   2 
+\end{minted}
+
+\vspace*{0.4cm}
+\begin{haskell}
+left :: Loc a -> Loc a
+left (Node l x r, cs) = (l, (L r x):cs)
+\end{haskell}
+\end{center}
+\end{slide}
+
+\begin{slide}{Zipper - Right}
+\begin{center}
+\begin{minted}[escapeinside=!!]{text}
+     !\textcolor{red}{5}!                    5     
+   /   \                 /           
+  3     3      ->       3          !\textcolor{red}{3}!  
+ / \   / \             / \        / \ 
+1  2   1  2           1   2      1   2
+\end{minted}
+
+\vspace*{0.4cm}
+\begin{haskell}
+right :: Loc a -> Loc a
+right (Node l x r, cs) = (r, (R l x):cs)
+\end{haskell}
+\end{center}
+\end{slide}
+
+% up :: Loc a -> Loc a
+% up (t, (L r x):cs) = (Node l x r, cs)
+% up (t, (R l x):cs) = (Node l x r, cs)

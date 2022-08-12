@@ -22,28 +22,28 @@ type instance PF (Tree a) = K a                -- Leaf
 \end{haskell}
 \end{slide}
 
-\begin{slide}{Fixed-point}
+% \begin{slide}{Fixed-point}
 
-Pattern functors only represent a single layer of recursion
+% Pattern functors only represent a single layer of recursion
   
-\begin{haskell}
-data Fix f = In (f (Fix f))
+% \begin{haskell}
+% data Fix f = In (f (Fix f))
 
-type Tree a = Fix (PF (Tree a))
-\end{haskell}
+% type Tree a = Fix (PF (Tree a))
+% \end{haskell}
 
-Isomorphic
+% Isomorphic
 
-\begin{haskell}
-from :: Tree a -> Fix (PF (Tree a))
-from (Leaf x)     = In (K x)
-from (Node l x r) = In (I (from l) :*: K x :*: I (from r)) 
+% \begin{haskell}
+% from :: Tree a -> Fix (PF (Tree a))
+% from (Leaf x)     = In (K x)
+% from (Node l x r) = In (I (from l) :*: K x :*: I (from r)) 
 
-to :: Fix (PF (Tree a)) -> Tree a
-to (In (K x))                 = Leaf x
-to (In (I l :*: K x :*: I r)) = Node (to l) x (to r)
-\end{haskell}
-\end{slide}
+% to :: Fix (PF (Tree a)) -> Tree a
+% to (In (K x))                 = Leaf x
+% to (In (I l :*: K x :*: I r)) = Node (to l) x (to r)
+% \end{haskell}
+% \end{slide}
 
 \section{Generic Implementation}
 
