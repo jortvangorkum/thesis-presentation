@@ -109,6 +109,10 @@ merkle = In . merkleG . fmap merkle . from
 \end{slide}
 
 \begin{slide}{Cata Merkle}
+
+\texttt{cata} means \textit{catamorphism} which is a generalization of a \textit{fold}. A fold combines the data structure into a single value (e.g., \texttt{sumTree} is a fold).  
+
+\vspace*{0.4cm}
 \begin{haskell}
 cataMerkleState :: (Functor f, Traversable f)
                 => (f a -> a) -> Merkle f -> State (HashMap Digest a) a
@@ -137,7 +141,7 @@ cataSum = cataMerkle
 \end{slide}
 
 \begin{slide}{Pattern Synonyms}
-\textit{Pattern synonyms} add an abstraction over patterns, which allows the user to move additional logic from guards and case expressions into patterns.
+\textit{Pattern synonyms} add an abstraction over patterns, which allows the user to move additional logic from \texttt{guards} and \texttt{case} expressions into patterns.
 
 \vspace*{0.4cm}
 \begin{haskell}

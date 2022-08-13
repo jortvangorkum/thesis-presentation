@@ -26,3 +26,4 @@ adaptivity
 incrementalized
 Trie
 trie
+catamorphism

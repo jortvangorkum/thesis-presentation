@@ -8,7 +8,7 @@ Goal: implement an incremental algorithm which performs better than the non-incr
 
 % Example
 
-\begin{slide}{Example Problem}
+\begin{slide}{Example Problem with Memoization}
 \begin{haskell}
 data Tree a = Leaf a | Node (Tree a) a (Tree a)
 
@@ -44,7 +44,7 @@ exampleTree = Node (Node (Leaf 1) 3 (Leaf 2)) 5 (Node (Leaf 1) 3 (Leaf 2))
 
 %  -------------------
 
-\begin{slide}{Example Problem}
+\begin{slide}{Example Problem with Memoization}
   
 {\Large \textbf{Memoized} version of the \texttt{sumTree}}
 

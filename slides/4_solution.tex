@@ -57,20 +57,9 @@ SumTreeInc
 \end{haskell}
 \end{slide}
 
-\begin{slide}{Updating the Digests}
+\begin{slide}{Updating the Input}
 The \textit{Zipper} is a technique for keeping track of how the data structure is being traversed through
 
-\begin{haskell}
-data Cxt a = L (Tree a) a | R (Tree a) a
-
-type Loc a = (Tree a, [Cxt a])
-
-enter :: Tree a -> Loc a
-enter t = (t, [])
-\end{haskell}
-\end{slide}
-
-\begin{slide}{Zipper - Left}
 \begin{center}
 \begin{minted}[escapeinside=!!]{text}
      !\textcolor{red}{5}!                           5     
@@ -80,51 +69,55 @@ enter t = (t, [])
 1  2   1  2          1   2        1   2 
 \end{minted}
 
-\vspace*{0.4cm}
-\begin{haskell}
-left :: Loc a -> Loc a
-left (Node l x r, cs) = (l, (L r x):cs)
-\end{haskell}
+\textbf{Go to the left Subtree of the Tree}
 \end{center}
+
+Using the Zipper, we can traverse through the data structure and update the values where needed. And to restore the tree, we go up and while we are going up, we update the digests of the nodes.
 \end{slide}
 
-\begin{slide}{Zipper - Right}
-\begin{center}
-\begin{minted}[escapeinside=!!]{text}
-     !\textcolor{red}{5}!                    5     
-   /   \                 /           
-  3     3      ->       3          !\textcolor{red}{3}!  
- / \   / \             / \        / \ 
-1  2   1  2           1   2      1   2
-\end{minted}
+% \begin{slide}{Zipper - Left}
 
-\vspace*{0.4cm}
-\begin{haskell}
-right :: Loc a -> Loc a
-right (Node l x r, cs) = (r, (R l x):cs)
-\end{haskell}
-\end{center}
-\end{slide}
 
-\begin{slide}{Zipper - Up}
-\begin{center}
-\begin{minted}[escapeinside=!!]{text}
-    5                        !\textcolor{red}{5}!        
-   /                       /   \           
-  3          !\textcolor{red}{3}!     ->     3     3      
- / \        / \          / \   / \     
-1   2      1   2        1  2   1  2   
-\end{minted}
+% \vspace*{0.4cm}
+% \begin{haskell}
+% left :: Loc a -> Loc a
+% left (Node l x r, cs) = (l, (L r x):cs)
+% \end{haskell}
+% \end{slide}
 
-\vspace*{0.4cm}
-\begin{haskell}
-up :: Loc a -> Loc a
-up (t, (L r x):cs) = (Node l x r, cs)
-up (t, (R l x):cs) = (Node l x r, cs)
-\end{haskell}
-\end{center}
-\end{slide}
+% \begin{slide}{Zipper - Right}
+% \begin{center}
+% \begin{minted}[escapeinside=!!]{text}
+%      !\textcolor{red}{5}!                    5     
+%    /   \                 /           
+%   3     3      ->       3          !\textcolor{red}{3}!  
+%  / \   / \             / \        / \ 
+% 1  2   1  2           1   2      1   2
+% \end{minted}
 
+% \vspace*{0.4cm}
+% \begin{haskell}
+% right :: Loc a -> Loc a
+% right (Node l x r, cs) = (r, (R l x):cs)
+% \end{haskell}
+% \end{center}
+% \end{slide}
+
+% \begin{slide}{Zipper - Up}
+% \begin{center}
+% \begin{minted}[escapeinside=!!]{text}
+%     5                        !\textcolor{red}{5}!        
+%    /                       /   \           
+%   3          !\textcolor{red}{3}!     ->     3     3      
+%  / \        / \          / \   / \     
+% 1   2      1   2        1  2   1  2   
+% \end{minted}
+
+% \vspace*{0.4cm}
+% \begin{haskell}
 % up :: Loc a -> Loc a
 % up (t, (L r x):cs) = (Node l x r, cs)
 % up (t, (R l x):cs) = (Node l x r, cs)
+% \end{haskell}
+% \end{center}
+% \end{slide}
