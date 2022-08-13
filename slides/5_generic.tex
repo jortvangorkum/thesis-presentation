@@ -47,17 +47,105 @@ type instance PF (Tree a) = K a                -- Leaf
 
 \section{Generic Implementation}
 
-\begin{slide}{Merkle}
+\begin{slide}{Hashing Primitive Type Constructors}
 \begin{haskell}
-type Merkle f = Fix (f :*: K Digest)
-
-type MerkleTree a = Merkle (PF (Tree a))
 
 class Hashable f where
   hash :: f (Merkle g) -> Digest
+\end{haskell}
 
-instance ...
+\begin{itemize}
+  \item The \texttt{f} represents the primitive type constructors (i.e., \inlinehaskell{U, I, K, :+:, :*:}) 
+  \item The \inlinehaskell{Merkle g} is the type of the recursive position (i.e., \inlinehaskell{I r}). 
+  \item \inlinehaskell{Merkle g} contains the \inlinehaskell{Digest} of its internal structure.
+  \item The \inlinehaskell{hash} function only converts a single layer of the pattern functor.
+\end{itemize}
+\end{slide}
 
-merkle ...
+\begin{slide}{Hashing Primitive Type Constructors}
+\begin{haskell}
+instance Hashable U where
+  hash _ = hash "U"
+
+instance (Show a) => Hashable (K a) where
+  hash (K x) = digestConcat [hash "K", hash x]
+\end{haskell}
+\end{slide}
+
+\begin{slide}{Hashing Primitive Type Constructors}
+\begin{haskell}
+instance (Hashable f, Hashable g) => Hashable (f :+: g) where
+  hash (L x) = digestConcat [hash "L", hash x]
+  hash (R x) = digestConcat [hash "R", hash x]
+
+instance (Hashable f, Hashable g) => Hashable (f :*: g) where
+  hash (x :*: y) = digestConcat [hash "P", hash x, hash y]
+\end{haskell}
+\end{slide}
+
+\begin{slide}{Hashing Primitive Type Constructors}
+\begin{haskell}
+class Hashable f where
+  hash :: f (Merkle g) -> Digest
+
+
+instance Hashable I where
+  hash (I x) = digestConcat [digest "I", getDigest x]
+    where
+      getDigest :: Fix (f :*: K Digest) -> Digest
+      getDigest (In (_ :*: K h)) = h
+\end{haskell}
+\end{slide}
+
+\begin{slide}{Generic Merkle Tree}
+\begin{haskell}
+merkleG :: Hashable f => f (Merkle g) -> (f :*: K Digest) (Merkle g)
+merkleG f = f :*: K (hash f)
+
+merkle :: (Regular a, Hashable (PF a), Functor (PF a))
+       => a -> Merkle (PF a)
+merkle = In . merkleG . fmap merkle . from
+\end{haskell}
+\end{slide}
+
+\begin{slide}{Cata Merkle}
+\begin{haskell}
+cataMerkleState :: (Functor f, Traversable f)
+                => (f a -> a) -> Merkle f -> State (HashMap Digest a) a
+cataMerkleState alg (In (x :*: K d)) 
+  = do m <- get
+       case lookup d m of
+         Just a  -> return a
+         Nothing -> do y <- mapM (cataMerkleState alg) x
+                       let r = alg y
+                       modify (insert d r) >> return r
+\end{haskell}
+\end{slide}
+
+\begin{slide}{Cata Sum}
+\begin{haskell}
+cataSum :: Merkle (PF (Tree Int)) -> (Int, HashMap Digest Int)
+cataSum = cataMerkle
+  (\case
+    L (K x)                 -> x
+    R (I l :*: K x :*: I r) -> l + x + r
+  )
+
+> cataSum (merkle (Node (Leaf 1) 2 (Leaf 3)))
+    (6, {"931090e5": 1, "7d1ef1c9": 3, "ba811ed5": 6})
+\end{haskell}
+\end{slide}
+
+\begin{slide}{Pattern Synonyms}
+\textit{Pattern synonyms} add an abstraction over patterns, which allows the user to move additional logic from guards and case expressions into patterns.
+
+\vspace*{0.4cm}
+\begin{haskell}
+cataSum :: Merkle (PF (Tree Int)) -> (Int, HashMap Digest Int)
+cataSum = cataMerkle
+  (\case
+    Leaf_ x     -> x
+    Node_ l x r -> l + x + r
+  )
 \end{haskell}
 \end{slide}

@@ -106,6 +106,25 @@ right (Node l x r, cs) = (r, (R l x):cs)
 \end{center}
 \end{slide}
 
+\begin{slide}{Zipper - Up}
+\begin{center}
+\begin{minted}[escapeinside=!!]{text}
+    5                        !\textcolor{red}{5}!        
+   /                       /   \           
+  3          !\textcolor{red}{3}!     ->     3     3      
+ / \        / \          / \   / \     
+1   2      1   2        1  2   1  2   
+\end{minted}
+
+\vspace*{0.4cm}
+\begin{haskell}
+up :: Loc a -> Loc a
+up (t, (L r x):cs) = (Node l x r, cs)
+up (t, (R l x):cs) = (Node l x r, cs)
+\end{haskell}
+\end{center}
+\end{slide}
+
 % up :: Loc a -> Loc a
 % up (t, (L r x):cs) = (Node l x r, cs)
 % up (t, (R l x):cs) = (Node l x r, cs)
