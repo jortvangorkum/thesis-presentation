@@ -43,26 +43,12 @@ merkle b@(Node l x r) = NodeH (hash b) l' x r'
 \end{haskell}
 \end{slide}
 
-\begin{slide}{Using Digests} 
-\begin{haskell}
-sumTreeInc m (LeafH d x) = case lookup d m of
-  Just z  -> (z, m)
-  Nothing -> (x, insert d x m)
-
-...
-\end{haskell}
-
-\begin{haskell}
-SumTreeInc 
-\end{haskell}
-\end{slide}
-
-\begin{slide}{Updating the Input}
+\begin{slide}{Efficiently updating the Input}
 The \textit{Zipper} is a technique for keeping track of how the data structure is being traversed through
 
 \begin{center}
 \begin{minted}[escapeinside=!!]{text}
-     !\textcolor{red}{5}!                           5     
+     !\textcolor{red}{5}!                            5     
    /   \                           \    
   3     3      ->      !\textcolor{red}{3}!            3    
  / \   / \            / \          / \  
@@ -71,6 +57,10 @@ The \textit{Zipper} is a technique for keeping track of how the data structure i
 
 \textbf{Go to the left Subtree of the Tree}
 \end{center}
+\end{slide}
+
+\begin{slide}{Efficiently updating the Input}
+Only the parent node digests needs to be updated. Which is more efficient than rehashing the entire tree.
 
 Using the Zipper, we can traverse through the data structure and update the values where needed. And to restore the tree, we go up and while we are going up, we update the digests of the nodes.
 \end{slide}
