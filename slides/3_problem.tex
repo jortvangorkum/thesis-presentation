@@ -1,100 +1,11 @@
 \section{Goal}
 
-\begin{slide}{What does this solve?}
+\begin{slide}{What does this improve?}
+\begin{center}
+  {\huge \textbf{Goal}}
+\end{center} 
 
-Goal: implement an incremental algorithm which performs better than the non-incremental algorithm for large regular datatypes
+Implement an incremental algorithm which performs better than the non-incremental algorithm for large regular datatypes
 
 \end{slide}
 
-% Example
-
-\begin{slide}{Example Problem with Memoization}
-\begin{haskell}
-data Tree a = Leaf a | Node (Tree a) a (Tree a)
-
-sumTree :: Tree Int -> Int
-sumTree (Leaf x)     = x
-sumTree (Node l x r) = x + sumTree l + sumTree r
-
-exampleTree = Node (Node (Leaf 1) 3 (Leaf 2)) 5 (Node (Leaf 1) 3 (Leaf 2))
-\end{haskell}
-
-\begin{center}
-\textbf{Visual representation}
-
-\begin{minipage}{.1\textwidth}
-\texttt{sumTree(}
-\end{minipage}
-\begin{minipage}{.2\textwidth}
-\begin{center}
-\begin{minted}{text}
-     5 
-   /   \
-  3     3
- / \   / \
-1  2   1  2
-\end{minted}
-\end{center}
-\end{minipage}
-\begin{minipage}{.1\textwidth}
-\texttt{) = 17}
-\end{minipage}
-\end{center}
-\end{slide}
-
-%  -------------------
-
-\begin{slide}{Example Problem with Memoization}
-  
-{\Large \textbf{Memoized} version of the \texttt{sumTree}}
-
-\begin{minipage}{.45\textwidth}
-\begin{center}
-\textbf{Example Tree}
-
-\vspace*{0.4cm}
-\begin{minted}[escapeinside=!!]{text}
-     5 
-   /   \
-  3     !\textcolor{red}{3}!
- / \   !\textcolor{red}{/ \texttt{\symbol{92}}}!
-1  2   !\textcolor{red}{1  2}!
-\end{minted}
-\end{center}
-\end{minipage}
-\hfill
-\begin{minipage}{.45\textwidth}
-\begin{center}
-\begin{tabular}{ | m{0.45\textwidth} | >{\centering\arraybackslash} m{1cm} | }
-\hline
-\textbf{Tree} & \textbf{Result} \\ 
-\hline
-\vspace{0.3cm}
-\begin{minipage}[t]{.2\textwidth}
-\begin{minted}{text}
-      5 
-    /   \
-   3     3
-  / \   / \
- 1  2   1  2
-\end{minted}
-\end{minipage}
-\vspace*{0.3cm} & 17 \\
-\hline
-\vspace{0.3cm}
-\begin{minipage}[t]{.2\textwidth}
-\begin{minted}{text}
-      3 
-     / \ 
-    1   2
-\end{minted}
-\end{minipage}
-\vspace{0.5em}  & 6 \\
-\hline
-\end{tabular}
-\vspace*{0.7cm}
-
-\textbf{Cached Results}
-\end{center}
-\end{minipage}
-\end{slide}

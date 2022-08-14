@@ -2,14 +2,20 @@
 
 \begin{slide}{What I skipped for time}
 \begin{itemize}
-  \item The usage of fixed-point is not explained
-  \item Cache Addition/Replacement policies
-  \item ...
+  \item The explanation of fixed-point
+  \item Implementation of the generic Zipper
+  \item Cache management
+  \item Future work
+  \item Explained what generic library is chosen and why it was chosen
 \end{itemize}
 \end{slide}
 
 \begin{slide}{Summary}
 \begin{itemize}
-  \item ...
+  \item We have implemented an efficient incremental algorithm over regular datatypes
+  \item The incremental algorithm is faster than the non-incremental version when the data structure contains more than $10^3$ nodes
+  \item We introduced the pattern synonyms to improve the developer experience to almost the same
+  level as the non-incremental implementation
+  \item However, the initial pass of the incremental algorithm is a lot slower than the non-incremental version. Therefore, the incremental algorithm needs to be performed a lot (with small changes), before being overall faster than the non-incremental version.
 \end{itemize}
 \end{slide}

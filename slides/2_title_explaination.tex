@@ -41,9 +41,11 @@ fib n = fib (n - 1) + fib (n - 2)
 
 \begin{slide}{Example Incremental Computation}
 
-% TODO: Write how incremental computation relates to Memoization
-
 \centering
+A technique for implementing incremental computations is:
+
+\vspace*{0.4cm}
+
 {\huge \textit{Memoization}}
 
 \vspace*{0.4cm}
@@ -181,4 +183,11 @@ data Forest a = Nil | Cons (Tree a) (Forest a)
 \begin{center}
   \large \textbf{Generic Incremental Computation for Regular Datatypes}
 \end{center}
+
+\vspace*{0.4cm}
+\begin{itemize}
+  \item Improve performance by only recomputing changed input
+  \item Using generic programming to define functionality for a large class of datatypes
+  \item The class of datatypes are regular datatypes
+\end{itemize}
 \end{slide}

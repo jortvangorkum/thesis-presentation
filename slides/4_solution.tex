@@ -1,5 +1,98 @@
 \section{Solution}
 
+% Example
+
+\begin{slide}{Example with Memoization}
+\begin{haskell}
+data Tree a = Leaf a | Node (Tree a) a (Tree a)
+
+sumTree :: Tree Int -> Int
+sumTree (Leaf x)     = x
+sumTree (Node l x r) = x + sumTree l + sumTree r
+
+exampleTree = Node (Node (Leaf 1) 3 (Leaf 2)) 5 (Node (Leaf 1) 3 (Leaf 2))
+\end{haskell}
+
+\begin{center}
+\textbf{Visual representation}
+
+\begin{minipage}{.1\textwidth}
+\texttt{sumTree(}
+\end{minipage}
+\begin{minipage}{.2\textwidth}
+\begin{center}
+\begin{minted}{text}
+     5 
+   /   \
+  3     3
+ / \   / \
+1  2   1  2
+\end{minted}
+\end{center}
+\end{minipage}
+\begin{minipage}{.1\textwidth}
+\texttt{) = 17}
+\end{minipage}
+\end{center}
+\end{slide}
+
+%  -------------------
+
+\begin{slide}{Example with Memoization}
+  
+{\Large \textbf{Memoized} version of the \texttt{sumTree}}
+
+\begin{minipage}{.45\textwidth}
+\begin{center}
+\textbf{Example Tree}
+
+\vspace*{0.4cm}
+\begin{minted}[escapeinside=!!]{text}
+     5 
+   /   \
+  3     !\textcolor{red}{3}!
+ / \   !\textcolor{red}{/ \texttt{\symbol{92}}}!
+1  2   !\textcolor{red}{1  2}!
+\end{minted}
+\end{center}
+\end{minipage}
+\hfill
+\begin{minipage}{.45\textwidth}
+\begin{center}
+\begin{tabular}{ | m{0.45\textwidth} | >{\centering\arraybackslash} m{1cm} | }
+\hline
+\textbf{Tree} & \textbf{Result} \\ 
+\hline
+\vspace{0.3cm}
+\begin{minipage}[t]{.2\textwidth}
+\begin{minted}{text}
+      5 
+    /   \
+   3     3
+  / \   / \
+ 1  2   1  2
+\end{minted}
+\end{minipage}
+\vspace*{0.3cm} & 17 \\
+\hline
+\vspace{0.3cm}
+\begin{minipage}[t]{.2\textwidth}
+\begin{minted}{text}
+      3 
+     / \ 
+    1   2
+\end{minted}
+\end{minipage}
+\vspace{0.5em}  & 6 \\
+\hline
+\end{tabular}
+\vspace*{0.7cm}
+
+\textbf{Cached Results}
+\end{center}
+\end{minipage}
+\end{slide}
+
 \begin{slide}{Using Hash function}
 A \textit{hash function} is a process of transforming input into an arbitrary fixed-size value (i.e., digest), where the same input always generates the same output
 
@@ -12,6 +105,9 @@ A \textit{hash function} is a process of transforming input into an arbitrary fi
 1  2   1  2                       !\textcolor{red}{Digest}!  
 \end{minted}
 \end{center}
+
+\vspace*{0.4cm}
+The comparison for equality is now \textbf{constant} time instead of \textit{linear}.
 \end{slide}
 
 % \begin{slide}{Implementation Hash function}
@@ -60,9 +156,18 @@ The \textit{Zipper} is a technique for keeping track of how the data structure i
 \end{slide}
 
 \begin{slide}{Efficiently updating the Input}
-Only the parent node digests needs to be updated. Which is more efficient than rehashing the entire tree.
+\begin{center}
+\begin{minted}[escapeinside=!!]{text}
+          5                     5                 !\textcolor{red}{5}!     
+           \                     \              /   \   
+  !\textcolor{red}{3}!         3     ->     !\textcolor{red}{7}!        3     ->     7     3   
+ / \       / \          / \      / \          / \   / \ 
+1   2     1   2        4   3    1   2        4  3   1  2
+\end{minted}
+\end{center}
 
-Using the Zipper, we can traverse through the data structure and update the values where needed. And to restore the tree, we go up and while we are going up, we update the digests of the nodes.
+\vspace*{0.4cm}
+When updating the data structure of the input. Only the parent node digests needs to be updated. Which is more efficient than rehashing the entire tree.
 \end{slide}
 
 % \begin{slide}{Zipper - Left}
