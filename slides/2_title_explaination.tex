@@ -10,7 +10,7 @@
 \textbf{=}
 \vspace*{.5cm}
 
-Incremental computation is an approach to improve performance by only recomputing result for changed input
+Incremental computation tries to improve performance, when the same function is called again, by only computing the output of the changed input compared to the previous computations
 
 \end{slide}
 
@@ -188,6 +188,6 @@ data Forest a = Nil | Cons (Tree a) (Forest a)
 \begin{itemize}
   \item Improve performance by only recomputing changed input
   \item Using generic programming to define functionality for a large class of datatypes
-  \item The class of datatypes are regular datatypes
+  \item The algorithm works for the regular datatypes
 \end{itemize}
 \end{slide}

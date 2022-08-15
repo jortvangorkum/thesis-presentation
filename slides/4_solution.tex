@@ -108,6 +108,8 @@ A \textit{hash function} is a process of transforming input into an arbitrary fi
 
 \vspace*{0.4cm}
 The comparison for equality is now \textbf{constant} time instead of \textit{linear}.
+
+\textbf{However}, the digest needs to be computed for every comparison, while the structure stays the same. So, the digest needs to be stored somewhere. 
 \end{slide}
 
 % \begin{slide}{Implementation Hash function}
@@ -140,34 +142,36 @@ merkle b@(Node l x r) = NodeH (hash b) l' x r'
 \end{slide}
 
 \begin{slide}{Efficiently updating the Input}
-The \textit{Zipper} is a technique for keeping track of how the data structure is being traversed through
 
-\begin{center}
-\begin{minted}[escapeinside=!!]{text}
-     !\textcolor{red}{5}!                            5     
-   /   \                           \    
-  3     3      ->      !\textcolor{red}{3}!            3    
- / \   / \            / \          / \  
-1  2   1  2          1   2        1   2 
-\end{minted}
+When a new tree is given to the function, the digests of the entire tree needs to be rehashed. This is \textbf{inefficient}, because, the affected digests are the changed parts of the tree and their parent nodes.
 
-\textbf{Go to the left Subtree of the Tree}
-\end{center}
+A more \textbf{efficient} method is, by passing a set of instructions on how to update the current input into the newly changed input. Using the set of instructions we can: 
+\begin{itemize}
+  \item traverse through the data structure
+  \item modify the value of the current position with a given function
+  \item and to return to a complete tree, we traverse back to the rootnode, while updating the digests
+\end{itemize}
+
+To implement the previously described functionality, we use a \textit{Zipper}. 
 \end{slide}
 
 \begin{slide}{Efficiently updating the Input}
 \begin{center}
 \begin{minted}[escapeinside=!!]{text}
-          5                     5                 !\textcolor{red}{5}!     
-           \                     \              /   \   
-  !\textcolor{red}{3}!         3     ->     !\textcolor{red}{7}!        3     ->     7     3   
- / \       / \          / \      / \          / \   / \ 
-1   2     1   2        4   3    1   2        4  3   1  2
+     !\textcolor{red}{5}!                                5    
+   /   \                               \   
+  3     3      - !\textcolor{blue}{Left}! ->      !\textcolor{red}{3}!         3      - !\textcolor{blue}{Modify}! ->
+ / \   / \                   / \       / \ 
+1  2   1  2                 1   2     1   2
+    
+    
+         5                       !\textcolor{red}{5}!     
+          \                    /   \   
+  !\textcolor{red}{7}!        3     - !\textcolor{blue}{Up}! ->      7     3   
+ / \      / \                / \   / \ 
+4   3    1   2              4  3   1  2
 \end{minted}
 \end{center}
-
-\vspace*{0.4cm}
-When updating the data structure of the input. Only the parent node digests needs to be updated. Which is more efficient than rehashing the entire tree.
 \end{slide}
 
 % \begin{slide}{Zipper - Left}
