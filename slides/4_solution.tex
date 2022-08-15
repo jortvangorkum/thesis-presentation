@@ -149,6 +149,7 @@ data TreeH a = LeafH Digest a
 instance Eq (TreeH a) where
   LeafH d1 _     == LeafH d2 _     = d1 == d2
   NodeH d1 _ _ _ == NodeH d2 _ _ _ = d1 == d2
+  _              == _              = False
 \end{haskell}
 \end{slide}
 

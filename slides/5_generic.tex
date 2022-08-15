@@ -90,7 +90,7 @@ class Hashable f where
 
 
 instance Hashable I where
-  hash (I x) = digestConcat [digest "I", getDigest x]
+  hash (I x) = digestConcat [hash "I", getDigest x]
     where
       getDigest :: Fix (f :*: K Digest) -> Digest
       getDigest (In (_ :*: K h)) = h
@@ -105,6 +105,13 @@ merkleG f = f :*: K (hash f)
 merkle :: (Regular a, Hashable (PF a), Functor (PF a))
        => a -> Merkle (PF a)
 merkle = In . merkleG . fmap merkle . from
+
+> let x = merkle (Node (Leaf 1) 2 (Leaf 3))
+    x :: (Merkle (PF (Tree Int)))
+    x = In ((R (I (In (K 1)) :*: K 2 :*: I (In (K 3)))) -- PF (Tree Int)
+            :*: K 1da16c7c48e)                          -- Merkle
+
+
 \end{haskell}
 \end{slide}
 
@@ -126,16 +133,16 @@ cataMerkleState alg (In (x :*: K d))
 \end{haskell}
 \end{slide}
 
-\begin{slide}{Cata Sum}
+\begin{slide}{Incremental Sum Tree}
 \begin{haskell}
-cataSum :: Merkle (PF (Tree Int)) -> (Int, HashMap Digest Int)
-cataSum = cataMerkle
+incSumTree :: Merkle (PF (Tree Int)) -> (Int, HashMap Digest Int)
+incSumTree = cataMerkle
   (\case
     L (K x)                 -> x
     R (I l :*: K x :*: I r) -> l + x + r
   )
 
-> cataSum (merkle (Node (Leaf 1) 2 (Leaf 3)))
+> incSumTree (merkle (Node (Leaf 1) 2 (Leaf 3)))
     (6, {"931090e5": 1, "7d1ef1c9": 3, "ba811ed5": 6})
 \end{haskell}
 \end{slide}
@@ -145,11 +152,26 @@ cataSum = cataMerkle
 
 \vspace*{0.4cm}
 \begin{haskell}
-cataSum :: Merkle (PF (Tree Int)) -> (Int, HashMap Digest Int)
-cataSum = cataMerkle
+incSumTree :: Merkle (PF (Tree Int)) -> (Int, HashMap Digest Int)
+incSumTree = cataMerkle
   (\case
     Leaf_ x     -> x
     Node_ l x r -> l + x + r
   )
 \end{haskell}
+\end{slide}
+
+\begin{slide}{Final Process}
+\begin{chaskell}
+> let exampleTree = merkle (Node (Leaf 1) 2 (Leaf 3))
+ 
+> let (y, m) = incSumTree exampleTree
+    (6, {"931090e5": 1, "7d1ef1c9": 3, "ba811ed5": 6})
+  
+> let newTree = update [Left] (const (Leaf 4)) exampleTree
+
+> incSumTreeMap m exampleTree
+    (9, {"931090e5": 1, "7d1ef1c9": 3, "ba811ed5": 6, "61f159e6": 4
+        , "16d55294": 9})
+\end{chaskell}
 \end{slide}
