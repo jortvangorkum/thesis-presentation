@@ -20,20 +20,18 @@
 \begin{slide}{Undiscussed Topics}
 \begin{itemize}
   \setlength\itemsep{.7em}
-  \item The explanation of fixed-point
-  \item Implementation of the generic Zipper
   \item Cache management
-  \item Explained what generic library is chosen and why it was chosen
+  \item The explanation of fixed-point
+  \item Implementation of the (Generic) Zipper
 \end{itemize}
 \end{slide}
 
 \begin{slide}{Summary}
 \begin{itemize}
   \setlength\itemsep{1em}
-  \item We have implemented an efficient incremental algorithm over regular datatypes
+  \item We have implemented an efficient incremental algorithm for regular datatypes
   \item The incremental algorithm is faster than the non-incremental version when the data structure contains more than $10^3$ nodes
-  \item We introduced the pattern synonyms to improve the developer experience to almost the same
-  level as the non-incremental implementation
-  \item However, the initial pass of the incremental algorithm is a lot slower than the non-incremental version. Therefore, the incremental algorithm needs to be performed a lot (with small changes), before being overall faster than the non-incremental version.
+  \item We use pattern synonyms, so that the developer experience is almost at the same level as the non-incremental implementation
+  \item However, the initial pass of the incremental algorithm is a lot slower than the non-incremental version. Therefore, the incremental algorithm needs to be performed a lot (preferably, with small changes), before being overall faster than the non-incremental version.
 \end{itemize}
 \end{slide}
